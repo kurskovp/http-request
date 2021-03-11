@@ -12,5 +12,7 @@ posts = data['data']['children']
 for post in posts:
     title = post['data']['title']
     url = post['data']['url']
+    if 'imgur' not in url:
+        continue
     print(title, url)
 
