@@ -15,6 +15,7 @@ for post in posts:
     if 'imgur' not in url:
         continue
     with open(gif_name, mode='wb') as f:
-        f.write()
+        data_gif = requests.get(url)
+        f.write(data_gif.content)
     print(title, url)
 
