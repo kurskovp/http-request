@@ -14,5 +14,7 @@ for post in posts:
     url = post['data']['url']
     if 'imgur' not in url:
         continue
+    with open(gif_name, mode='wb') as f:
+        f.write()
     print(title, url)
 
