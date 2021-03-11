@@ -14,6 +14,7 @@ for post in posts:
     url = post['data']['url']
     if 'imgur' not in url:
         continue
+    git_name = url.split('/')[-1]
     with open(gif_name, mode='wb') as f:
         data_gif = requests.get(url)
         f.write(data_gif.content)
