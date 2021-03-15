@@ -1,15 +1,15 @@
 import requests
 
-class YaUploader:
-    def __init__(self, token: str):
-        self.token = token
+TOKEN = input()
 
-    def upload(self, file_path: str):
-        """Метод загруджает файл file_path на яндекс диск"""
-        # Тут ваша логика
-        return 'Вернуть ответ об успешной загрузке'
+response = requests.put('https://cloud-api.yandex.net/v1/disk/resources',
+                                params={'path': 'kurskovp'},
+                                headers={'Authorization': f'OAuth {TOKEN}'})
 
+response_2 = requests.get('https://cloud-api.yandex.net/v1/disk/resources',
+                        params={'path': 'kurskovp'},
+                        headers={'Authorization': f'OAuth {TOKEN}'})
 
-if __name__ == '__main__':
-    uploader = YaUploader('<Your Yandex Disk token>')
-    result = uploader.upload('c:\my_folder\file.txt')
+print(response_2.status_code)
+print(response_2.json())
+
