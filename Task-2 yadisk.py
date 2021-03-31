@@ -1,24 +1,29 @@
-import requests
 
-TOKEN = input()
+import requests, os
 
-response = requests.put('https://cloud-api.yandex.net/v1/disk/resources',
-                        params={'path': 'kurskovp'},
-                        headers={'Authorization': f'OAuth {TOKEN}'})
+class YaUploader:
+    def __init__(self, token: str):
+        self.token = token
 
-response_2 = requests.get('https://cloud-api.yandex.net/v1/disk/resources/upload',
-                        params={'path': '0FoqeSA.gif&url=https%3A%2F%2Fcloud-api.yandex.net%2Fv1%2Fdisk%2Fresources%3Fpath%3Dkurskovp'},
-                        headers={'Authorization': f'OAuth {TOKEN}'})
-#
-# response_3 = requests.get('https://cloud-api.yandex.net/v1/disk/resources/upload',
-#                         params={'path': '0FoqeSA.gif&url=https%3A%2F%2Fcloud-api.yandex.net'
-#                                         '%2Fv1%2Fdisk%2Fresources%3Fpath%3Dkurskovp'},
-#                         headers={'Authorization': f'OAuth {TOKEN}'})
+    def upload(self, file_path: str):
+        """Метод загруджает файл file_path на яндекс диск"""
+
+        file_path = os.path.normpath(file_path)
+        HEADERS = {"Authorization" : f'OAuth {self.token}'}
+        FILES = {"file" : open(file_path, 'rb')}
+
+        response_url = requests.get(
+        "https://cloud-api.yandex.net/v1/disk/resources/upload",
+        params = {"path": file_path} ,
+        headers = HEADERS)
+        url = response_url.json().get('href')
 
 
-print(response_2.status_code)
-print(response_2.json())
-href = response_2.json()['href']
-with open('0FoqeSA.gif', 'rb') as f:
-    requests.put(href, files = {'file': f})
+        response_upload = requests.put(url, files = FILES, headers = {})
+        return print(response_upload.status_code)
+
+
+if __name__ == '__main__':
+    uploader = YaUploader('XXX')
+    result = uploader.upload("files-to-upload/test/art10.jpg")
 

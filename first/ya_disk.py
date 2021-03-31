@@ -1,11 +1,14 @@
 import requests
 
-TOKEN = 'AgAAAA16yaTAADLWBlKRwrYhUimmUWQ4zu39e4'
+TOKEN = input()
 
-respons = requests.get('https://cloud-api.yandex.net/v1/disk/resources/upload',
-                       params={'path':'upload_file.txt'},
-                       heanders = {'Authorizatijn': fr'OAuth {TOKEN}'})
+response = requests.get('https://cloud-api.yandex.net/v1/disk/resources/download',
+                       params={'path':'AgAAAABTHtuKAADLW-IkdUHVCU6JueXfIqBNDMo'},
+                       headers = {'Authorization': f'OAuth {TOKEN}'})
 
 
-print(respons.status_code)
-print(respons.json())
+print(response.status_code)
+print(response.json())
+href = response.json()['href']
+with open('new_text') as f:
+    requests.put(href, files = {'file': f})
